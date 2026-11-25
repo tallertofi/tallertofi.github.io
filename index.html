@@ -10,7 +10,10 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tallertofi.cl">
 <meta name="theme-color" content="#1F2B47">
-<link rel="icon" href="img/logo.png">
+<link rel="icon" type="image/png" sizes="32x32" href="img/logo-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="img/logo-64.png">
+<link rel="apple-touch-icon" href="img/logo-180.png">
+<meta property="og:image" content="https://tallertofi.cl/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -53,7 +56,7 @@ p{margin:0 0 1rem;max-width:62ch}
 .nav{position:sticky;top:0;z-index:20;background:rgba(250,248,243,.94);backdrop-filter:blur(6px);border-bottom:2px solid var(--tinta)}
 .nav .envoltura{display:flex;align-items:center;justify-content:space-between;height:64px}
 .marca{display:flex;align-items:center;gap:.6rem;text-decoration:none;font-family:var(--display);font-weight:800;font-size:1.55rem}
-.marca img{width:38px;height:38px;border-radius:50%;background:var(--tinta)}
+.marca img{width:42px;height:42px}
 .nav ul{display:flex;gap:1.6rem;list-style:none;margin:0;padding:0;align-items:center}
 .nav ul a{text-decoration:none;font-weight:500}
 .nav ul a:hover{text-decoration:underline;text-underline-offset:4px}
@@ -182,7 +185,7 @@ footer li{margin-bottom:.35rem}
 <header class="nav">
   <div class="envoltura">
     <a class="marca" href="#inicio">
-      <img src="img/logo.png" alt="" onerror="this.style.display='none'">
+      <img src="img/logo-180.png" alt="" width="42" height="42">
       Taller TOFI
     </a>
     <button class="menu-btn" aria-expanded="false" aria-controls="menu">Menú</button>
@@ -399,7 +402,7 @@ footer li{margin-bottom:.35rem}
 <script>
 /* ============ Configuración: editar aquí ============ */
 const CONFIG = {
-  whatsapp: "",                 // número con código país, sin + ni espacios. Ej. "56912345678". Vacío oculta WhatsApp.
+  whatsapp: "",                 // pendiente hasta tener la línea del taller. Número con código país, sin + ni espacios. Ej. "56912345678". Vacío oculta WhatsApp.
   correo: "tallertofi@gmail.com",
   instagram: "taller.tofi",
   mostrarPrecios: true          // false oculta precios en catálogo y cotizador
@@ -563,7 +566,7 @@ if (CONFIG.whatsapp){
 } else {
   $("enviar-whatsapp").hidden = true;
   $("pie-whatsapp-li").hidden = true;
-  document.querySelectorAll(".portada .js-whatsapp").forEach(a => { a.lastChild.textContent = " Pedir cotización"; });
+  document.querySelectorAll(".portada .js-whatsapp").forEach(a => { a.querySelector("svg")?.remove(); a.lastChild.textContent = "Pedir cotización"; });
 }
 
 /* Menú móvil */
