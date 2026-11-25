@@ -108,6 +108,7 @@ section{padding:5.5rem 0}
 .figura{background:var(--papel);border:2px solid var(--tinta);border-radius:8px;aspect-ratio:5/3;display:grid;place-items:center;overflow:hidden}
 .figura svg{width:88%;height:auto}
 .figura img{width:100%;height:100%;object-fit:cover}
+.figura.con-foto{aspect-ratio:4/3}
 .codigo{font-family:var(--display);font-weight:600;color:var(--tinta-suave);font-size:1.1rem;margin-bottom:.3rem}
 .producto h3{font-size:2.2rem;margin-bottom:.8rem}
 .precio{font-family:var(--display);font-weight:700;font-size:1.5rem;margin:.4rem 0 1.2rem}
@@ -116,7 +117,7 @@ section{padding:5.5rem 0}
 
 /* Piloto */
 .piloto .envoltura{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:center}
-.foto{margin:0;border:2px solid var(--tinta);border-radius:8px;overflow:hidden;background:var(--pino);aspect-ratio:4/3;position:relative}
+.foto{margin:0;border:2px solid var(--tinta);border-radius:8px;overflow:hidden;background:var(--pino);aspect-ratio:4/5;position:relative}
 .foto img{width:100%;height:100%;object-fit:cover}
 .foto.vacia img{display:none}
 .foto.vacia::after{content:attr(data-pendiente);position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:2rem;
@@ -248,7 +249,7 @@ footer li{margin-bottom:.35rem}
 
   <section id="tosco-fino">
     <div class="envoltura">
-      <h2>Tosco por dentro, fino al tacto.</h2>
+      <h2>Tosco pero fino.</h2>
       <p class="intro">Un mueble de local se arrastra, se apila, se moja y se sienta encima de él gente que no lo cuida. Por eso lo pensamos en dos capas.</p>
       <div class="dos">
         <div class="tosco">
@@ -263,7 +264,7 @@ footer li{margin-bottom:.35rem}
           <div class="palabra">Fino</div>
           <ul>
             <li>Madera calibrada y lijada, con cantos redondeados que no enganchan ropa ni piernas.</li>
-            <li>Sellado poliuretánico que se limpia con paño húmedo y aguanta derrames de cerveza y café.</li>
+            <li>Sellado para alto tráfico que se limpia con paño húmedo y aguanta derrames de cerveza y café.</li>
             <li>Tono natural mate o tintes nogal y roble oscuro, para que calce con tu local.</li>
           </ul>
         </div>
@@ -294,7 +295,7 @@ footer li{margin-bottom:.35rem}
         <p class="intro">Nuestro primer set lleva meses trabajando a diario en un local gastronómico de Valdivia, con servicio completo, limpieza diaria y clientes de fin de semana.</p>
         <p>Es la mejor prueba que tenemos. Si quieres verlo antes de decidir, te contamos dónde está.</p>
         <div class="circular">
-          <p><strong>Nada se bota.</strong> Los despuntes de cada corte se vuelven tacos y refuerzos de la misma estructura, y el aserrín y la viruta van a compostaje.</p>
+          <p><strong>Nada se bota.</strong> Los despuntes de cada corte se vuelven refuerzos y tacos de la misma estructura, o tablas de picoteo para los locales. El aserrín y la viruta se guardan para compostaje.</p>
         </div>
       </div>
     </div>
@@ -315,7 +316,7 @@ footer li{margin-bottom:.35rem}
   <section id="cotizar" class="cotizar">
     <div class="envoltura">
       <h2>Pide tu cotización</h2>
-      <p class="intro">Arma tu pedido aquí y envíalo por WhatsApp o por correo. Te respondemos con una cotización formal.</p>
+      <p class="intro" id="intro-cotizar">Arma tu pedido aquí y envíalo por WhatsApp o por correo. Te respondemos con una cotización formal.</p>
 
       <form class="formulario" id="form-cotizacion" novalidate>
         <div>
@@ -416,11 +417,11 @@ const PRODUCTOS = [
   { id:"mesa",  codigo:"TOFI-MESA-02",  nombre:"Mesa", precio:490000,
     unidad:"mesa", detalle:"Cubierta de 2×8″",
     texto:"Cubierta de tablones de 2×8″ sobre patas y travesaño apernados. Pesada a propósito, para que no se mueva con cada codo apoyado.",
-    dibujo:"mesa" },
+    dibujo:"mesa", foto:"img/detalle-mesa.jpg", alt:"Esquina de una mesa TOFI con perno coche a la vista y canto redondeado" },
   { id:"bancas",codigo:"TOFI-BANCA-03", nombre:"Par de bancas", precio:380000,
     unidad:"par", detalle:"Dos bancas",
     texto:"Asiento de 2×8″ y estructura de 2×6″. Sirven con nuestras mesas o para sumar puestos a mesas que ya tienes.",
-    dibujo:"banca" },
+    dibujo:"banca", foto:"img/banca.jpg", alt:"Banca TOFI de pino con patas teñidas, junto a un fogón" },
   { id:"barra", codigo:"TOFI-BARRA-04", nombre:"Barra o mesón a medida", precio:null,
     unidad:"barra", detalle:"Precio según medidas",
     texto:"Barras de servicio, mesones altos para estar de pie o mesones de degustación. Se diseñan para tu espacio y se cotizan con medidas en mano.",
@@ -462,7 +463,7 @@ const $ = id => document.getElementById(id);
 /* Catálogo */
 $("lista-productos").innerHTML = PRODUCTOS.map(p => `
   <article class="producto">
-    <div class="figura">${DIBUJOS[p.dibujo]}</div>
+    ${p.foto ? `<div class="figura con-foto"><img src="${p.foto}" alt="${p.alt}" loading="lazy"></div>` : `<div class="figura">${DIBUJOS[p.dibujo]}</div>`}
     <div>
       <div class="codigo">${p.codigo}</div>
       <h3>${p.nombre}</h3>
@@ -565,6 +566,7 @@ if (CONFIG.whatsapp){
   });
 } else {
   $("enviar-whatsapp").hidden = true;
+  $("intro-cotizar").textContent = "Arma tu pedido aquí y envíalo por correo. Te respondemos con una cotización formal.";
   $("pie-whatsapp-li").hidden = true;
   document.querySelectorAll(".portada .js-whatsapp").forEach(a => { a.querySelector("svg")?.remove(); a.lastChild.textContent = "Pedir cotización"; });
 }
